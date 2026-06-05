@@ -1,5 +1,6 @@
-import { Row, IconButton, SmartLink, Text } from "@once-ui-system/core";
-import { person, social } from "@/resources";
+import { Row, IconButton, SmartLink, Text, Column } from "@once-ui-system/core";
+import { social, siteCTA } from "@/resources";
+import { isPlaceholderUrl } from "@/resources/site";
 import styles from "./Footer.module.scss";
 
 export const Footer = () => {
@@ -7,45 +8,52 @@ export const Footer = () => {
 
   return (
     <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
-      <Row
+      <Column
         className={styles.mobile}
         maxWidth="m"
         paddingY="8"
         paddingX="16"
         gap="16"
-        horizontal="between"
-        vertical="center"
-        s={{
-          direction: "column",
-          horizontal: "center",
-          align: "center",
-        }}
+        horizontal="center"
+        align="center"
       >
-        <Text variant="body-default-s" onBackground="neutral-strong">
+        <Row gap="16" wrap horizontal="center">
+          <SmartLink href="/start-here">Start Here</SmartLink>
+          <SmartLink href="/store">Store</SmartLink>
+          <SmartLink href="/services">Services</SmartLink>
+          <SmartLink href="/blog">Blog</SmartLink>
+          <SmartLink href="/case-studies">Examples</SmartLink>
+          <SmartLink href="/about">About</SmartLink>
+          <SmartLink href={siteCTA.primaryHref}>Free Checklist</SmartLink>
+          <SmartLink href="/contact">Contact</SmartLink>
+          <SmartLink href="/privacy">Privacy</SmartLink>
+          <SmartLink href="/terms">Terms</SmartLink>
+          <SmartLink href="/refund-policy">Refunds</SmartLink>
+        </Row>
+        <Text variant="body-default-s" onBackground="neutral-strong" align="center">
           <Text onBackground="neutral-weak">© {currentYear} /</Text>
-          <Text paddingX="4">{person.name}</Text>
-          <Text onBackground="neutral-weak">
-            {/* Usage of this template requires attribution. Please don't remove the link to Once UI unless you have a Pro license. */}
-            / Build your portfolio with{" "}
-            <SmartLink href="https://once-ui.com/products/magic-portfolio">Once UI</SmartLink>
-          </Text>
+          <Text paddingX="4">Practical AI Systems</Text>
+          <Text onBackground="neutral-weak">/ Less admin. Better follow-up. Smarter workflows.</Text>
         </Text>
         <Row gap="16">
           {social.map(
             (item) =>
-              item.link && (
+              item.link &&
+              !isPlaceholderUrl(item.link) && (
                 <IconButton
                   key={item.name}
                   href={item.link}
                   icon={item.icon}
                   tooltip={item.name}
                   size="s"
-                  variant="ghost"
+                  variant="tertiary"
+                  rel={item.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                  target={item.link.startsWith("http") ? "_blank" : undefined}
                 />
               ),
           )}
         </Row>
-      </Row>
+      </Column>
       <Row height="80" hide s={{ hide: false }} />
     </Row>
   );

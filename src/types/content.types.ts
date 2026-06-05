@@ -238,3 +238,22 @@ export interface Gallery extends BasePageConfig {
     orientation: string;
   }>;
 }
+
+export interface StartHere extends BasePageConfig {}
+
+export interface Store extends BasePageConfig {}
+
+export interface ServicesPage extends BasePageConfig {}
+
+export interface CaseStudiesPage extends BasePageConfig {}
+
+export interface FreeChecklist extends BasePageConfig {}
+
+export interface Contact extends BasePageConfig {}
+
+export interface SiteCTA {
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
+}

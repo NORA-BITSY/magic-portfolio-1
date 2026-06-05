@@ -1,49 +1,35 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
+import { Fade, Row, ToggleButton, Button, Line, SmartLink, Text } from "@once-ui-system/core";
 
-import { routes, display, person, about, blog, work, gallery } from "@/resources";
+import {
+  routes,
+  about,
+  blog,
+  startHere,
+  store,
+  servicesPage,
+  caseStudiesPage,
+  siteCTA,
+  display,
+} from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
-type TimeDisplayProps = {
-  timeZone: string;
-  locale?: string; // Optionally allow locale, defaulting to 'en-GB'
-};
-
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
-  const [currentTime, setCurrentTime] = useState("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-      const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-      setCurrentTime(timeString);
-    };
-
-    updateTime();
-    const intervalId = setInterval(updateTime, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [timeZone, locale]);
-
-  return <>{currentTime}</>;
-};
-
-export default TimeDisplay;
-
 export const Header = () => {
   const pathname = usePathname() ?? "";
+
+  const navItems = [
+    { route: "/start-here" as const, label: startHere.label, href: "/start-here", icon: "rocket" as const, match: (p: string) => p === "/start-here" },
+    { route: "/store" as const, label: store.label, href: "/store", icon: "grid" as const, match: (p: string) => p.startsWith("/store") },
+    { route: "/services" as const, label: servicesPage.label, href: "/services", icon: "document" as const, match: (p: string) => p === "/services" },
+    { route: "/blog" as const, label: blog.label, href: "/blog", icon: "book" as const, match: (p: string) => p.startsWith("/blog") },
+    { route: "/case-studies" as const, label: caseStudiesPage.label, href: "/case-studies", icon: "document" as const, match: (p: string) => p === "/case-studies" },
+    { route: "/about" as const, label: about.label, href: "/about", icon: "person" as const, match: (p: string) => p === "/about" },
+    { route: "/free-checklist" as const, label: "Free Checklist", href: "/free-checklist", icon: "document" as const, match: (p: string) => p === "/free-checklist" },
+  ];
 
   return (
     <>
@@ -72,8 +58,12 @@ export const Header = () => {
           position: "fixed",
         }}
       >
-        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
-          {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
+        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s" s={{ hide: true }}>
+          <SmartLink href="/">
+            <Text variant="body-default-s" weight="strong">
+              Practical AI Systems
+            </Text>
+          </SmartLink>
         </Row>
         <Row fillWidth horizontal="center">
           <Row
@@ -90,81 +80,17 @@ export const Header = () => {
                 <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
-              {routes["/about"] && (
-                <>
-                  <Row s={{ hide: true }}>
+              {navItems.map((item) =>
+                routes[item.route] ? (
+                  <Row key={item.href} s={{ hide: true }}>
                     <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      label={about.label}
-                      selected={pathname === "/about"}
+                      prefixIcon={item.icon}
+                      href={item.href}
+                      label={item.label}
+                      selected={item.match(pathname)}
                     />
                   </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/work"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="grid"
-                      href="/work"
-                      label={work.label}
-                      selected={pathname.startsWith("/work")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="grid"
-                      href="/work"
-                      selected={pathname.startsWith("/work")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/blog"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      label={blog.label}
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/gallery"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      label={gallery.label}
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                </>
+                ) : null,
               )}
               {display.themeSwitcher && (
                 <>
@@ -175,19 +101,12 @@ export const Header = () => {
             </Row>
           </Row>
         </Row>
-        <Flex fillWidth horizontal="end" vertical="center">
-          <Flex
-            paddingRight="12"
-            horizontal="end"
-            vertical="center"
-            textVariant="body-default-s"
-            gap="20"
-          >
-            <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
-            </Flex>
-          </Flex>
-        </Flex>
+        <Row fillWidth horizontal="end" vertical="center" paddingRight="12" s={{ hide: true }}>
+          <Button href={siteCTA.primaryHref} size="s" arrowIcon>
+            {siteCTA.primaryLabel}
+          </Button>
+        </Row>
+        <Row height="48" hide s={{ hide: false }} />
       </Row>
     </>
   );

@@ -1,6 +1,8 @@
 "use client";
 
-import { mailchimp, newsletter } from "@/resources";
+import { newsletter } from "@/resources";
+import { mailchimp } from "@/resources/once-ui.config";
+import { resolveNewsletterAction, siteConfig } from "@/resources/site";
 import { Button, Heading, Input, Text, Background, Column, Row } from "@once-ui-system/core";
 import { opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
@@ -47,7 +49,34 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
     }
   };
 
-  if (newsletter.display === false) return null;
+  if (newsletter.display === false || !siteConfig.newsletterEnabled) return null;
+
+  const formAction = resolveNewsletterAction();
+
+  if (!formAction) {
+    return (
+      <Column
+        fillWidth
+        padding="xl"
+        radius="l"
+        marginBottom="m"
+        horizontal="center"
+        align="center"
+        background="surface"
+        border="neutral-alpha-weak"
+        {...flex}
+      >
+        <Heading marginBottom="s" variant="display-strong-xs">
+          {newsletter.title}
+        </Heading>
+        <Text variant="body-default-m" onBackground="neutral-weak" align="center">
+          Newsletter signup is being connected. Meanwhile, download the{" "}
+          <a href="/free-checklist">free workflow checklist</a> or email{" "}
+          {siteConfig.contactEmail}.
+        </Text>
+      </Column>
+    );
+  }
 
   return (
     <Column
@@ -118,7 +147,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           display: "flex",
           justifyContent: "center",
         }}
-        action={mailchimp.action}
+        action={formAction}
         method="post"
         id="mc-embedded-subscribe-form"
         name="mc-embedded-subscribe-form"
@@ -173,7 +202,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           <div className="clear">
             <Row height="48" vertical="center">
               <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
-                Subscribe
+                Send me the workflows
               </Button>
             </Row>
           </div>

@@ -1,55 +1,62 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
-import { Line, Row, Text } from "@once-ui-system/core";
+import {
+  About,
+  Blog,
+  CaseStudiesPage,
+  Contact,
+  FreeChecklist,
+  Gallery,
+  Home,
+  Newsletter,
+  Person,
+  ServicesPage,
+  SiteCTA,
+  Social,
+  StartHere,
+  Store,
+  Work,
+} from "@/types";
+import { siteConfig } from "./site";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
-  role: "Design Engineer",
+  firstName: "Patrick",
+  lastName: "",
+  name: "Patrick",
+  role: "AI Systems Consultant",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  email: "hello@paraileial.com",
+  location: "America/New_York",
+  languages: ["English"],
+};
+
+const siteCTA: SiteCTA = {
+  primaryLabel: siteConfig.primaryCta.label,
+  primaryHref: siteConfig.primaryCta.href,
+  secondaryLabel: siteConfig.secondaryCta.label,
+  secondaryHref: siteConfig.secondaryCta.href,
 };
 
 const newsletter: Newsletter = {
   display: true,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  title: <>One practical AI workflow each week.</>,
+  description: (
+    <>
+      Get simple examples, prompts, tool breakdowns, and automation ideas for small-business work.
+      No jargon, no hype, no bloated tool stacks.
+    </>
+  ),
 };
 
 const social: Social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  // Set essentials: true for links you want to show on the about page
-  {
-    name: "GitHub",
-    icon: "github",
-    link: "https://github.com/once-ui-system",
-    essential: true,
-  },
-  {
-    name: "LinkedIn",
-    icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
-    essential: true,
-  },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
-    essential: false,
-  },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
-    essential: true,
-  },
+  ...(siteConfig.linkedInUrl
+    ? [{ name: "LinkedIn", icon: "linkedin" as const, link: siteConfig.linkedInUrl, essential: true }]
+    : []),
+  ...(siteConfig.xUrl
+    ? [{ name: "X", icon: "x" as const, link: siteConfig.xUrl, essential: true }]
+    : []),
   {
     name: "Email",
     icon: "email",
-    link: `mailto:${person.email}`,
+    link: `mailto:${siteConfig.contactEmail}`,
     essential: true,
   },
 ];
@@ -58,34 +65,77 @@ const home: Home = {
   path: "/",
   image: "/images/og/home.jpg",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  title: "Practical AI Systems for Small Business",
+  description:
+    "Templates, workflows, and automations to help small businesses reduce busywork, improve follow-up, and build repeatable systems without technical overwhelm.",
+  headline: <>Practical AI systems for small business owners who want less busywork.</>,
   featured: {
     display: true,
-    title: (
-      <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
-        <Line background="brand-alpha-strong" vert height="20" />
-        <Text marginRight="4" onBackground="brand-medium">
-          Featured work
-        </Text>
-      </Row>
-    ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    title: <>Free resource — AI Workflow Checklist</>,
+    href: "/free-checklist",
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
-</>
+      Get templates, automations, guides, and done-with-you workflows for follow-up, marketing, admin,
+      client work, and everyday operations — without heavy jargon.
+    </>
   ),
+};
+
+const startHere: StartHere = {
+  path: "/start-here",
+  label: "Start Here",
+  title: "Start Here – Practical AI Systems",
+  description:
+    "Choose your path: learn the basics, download templates, or book implementation help for your small business.",
+};
+
+const store: Store = {
+  path: "/store",
+  label: "Store",
+  title: "Templates & Toolkits – Practical AI Systems",
+  description:
+    "Practical AI resources for admin, marketing, sales, content, client onboarding, customer support, and operations.",
+};
+
+const servicesPage: ServicesPage = {
+  path: "/services",
+  label: "Services",
+  title: "AI Automation Services – Practical AI Systems",
+  description:
+    "Practical AI and automation services for small teams. Audits, build sprints, consulting, and ongoing optimization.",
+};
+
+const caseStudiesPage: CaseStudiesPage = {
+  path: "/case-studies",
+  label: "Examples",
+  title: "Workflow Examples – Practical AI Systems",
+  description:
+    "Illustrative before/after workflow examples showing the kinds of systems this site helps you build.",
+};
+
+const freeChecklist: FreeChecklist = {
+  path: "/free-checklist",
+  label: "Free Checklist",
+  title: "Free AI Workflow Checklist – Practical AI Systems",
+  description:
+    "Download the free checklist to identify which small-business tasks you can simplify with AI this week.",
+};
+
+const contact: Contact = {
+  path: "/contact",
+  label: "Contact",
+  title: "Book a Call – Practical AI Systems",
+  description:
+    "Tell me what is manual, repetitive, or messy in your business. I will help you decide what to automate, document, delegate, or leave alone.",
 };
 
 const about: About = {
   path: "/about",
   label: "About",
-  title: `About – ${person.name}`,
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  title: "About – Practical AI Systems",
+  description:
+    "I help small-business owners turn scattered tasks into simple AI-assisted workflows without technical overwhelm.",
   tableOfContent: {
     display: true,
     subItems: false,
@@ -95,138 +145,104 @@ const about: About = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "/contact",
   },
   intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        I help small-business owners turn scattered tasks into simple AI-assisted workflows.
+        <br />
+        <br />
+        Most businesses do not need more random tools. They need clearer processes: how leads are
+        handled, how follow-ups happen, how content gets created, how client work moves forward,
+        and how repetitive admin gets reduced.
+        <br />
+        <br />
+        This site exists to make AI practical. You will find templates, prompts, workflow kits,
+        guides, and services designed for real business tasks — not abstract technology experiments.
+        <br />
+        <br />
+        <strong>Principles I work by:</strong>
+        <br />
+        • Systems before tools — identify the repeatable process first
+        <br />
+        • AI without the tech fog — clear workflows for non-technical operators
+        <br />
+        • Small-business reality — built for messy inboxes, late follow-ups, and lean teams
+        <br />• Templates plus implementation — start DIY or hire help when ready
       </>
     ),
   },
   work: {
-    display: true, // set to false to hide this section
-    title: "Work Experience",
+    display: true,
+    title: "What I Help With",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Admin & Operations",
+        timeframe: "Core focus",
+        role: "Reduce repetitive back-office work",
         achievements: [
-          <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
-          </>,
-          <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
+          <>Email drafting, meeting summaries, task extraction, and weekly planning systems.</>,
+          <>SOP creation and process documentation with AI-assisted templates.</>,
         ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Sales & Lead Follow-Up",
+        timeframe: "Core focus",
+        role: "Improve response time and conversion",
         achievements: [
-          <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
-          </>,
-          <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
-          </>,
+          <>Lead capture, qualification, follow-up sequences, and CRM workflows.</>,
+          <>Pipeline visibility without overcomplicated sales stacks.</>,
+        ],
+        images: [],
+      },
+      {
+        company: "Content & Marketing",
+        timeframe: "Core focus",
+        role: "Build repeatable content systems",
+        achievements: [
+          <>Content repurposing workflows that turn one idea into multiple assets.</>,
+          <>Prompt libraries for consistent brand voice across channels.</>,
         ],
         images: [],
       },
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
-    title: "Studies",
-    institutions: [
-      {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
-      },
-      {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
-      },
-    ],
+    display: false,
+    title: "Background",
+    institutions: [],
   },
   technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+    display: true,
+    title: "Tool Stack",
     skills: [
       {
-        title: "Figma",
+        title: "AI & Prompting",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>ChatGPT, Claude, and custom prompt workflows for business tasks — emails, SOPs, summaries, and content.</>
         ),
-        tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        tags: [{ name: "ChatGPT" }, { name: "Claude" }],
+        images: [],
       },
       {
-        title: "Next.js",
+        title: "No-Code Automation",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>Make, Zapier, Tally, Airtable, and Notion for connecting forms, spreadsheets, email, and AI.</>
         ),
-        tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        tags: [{ name: "Make" }, { name: "Zapier" }, { name: "Airtable" }],
+        images: [],
+      },
+      {
+        title: "Business Systems",
+        description: (
+          <>CRM setup, intake forms, email sequences, content calendars, and handoff documentation.</>
+        ),
+        tags: [{ name: "Notion" }, { name: "Google Workspace" }],
+        images: [],
       },
     ],
   },
@@ -235,10 +251,9 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
+  title: "Clear guides for using AI in everyday business work.",
+  description:
+    "Learn how to use AI tools, prompts, and no-code automations to simplify operations, create content, improve follow-up, and reduce manual admin.",
 };
 
 const work: Work = {
@@ -246,8 +261,6 @@ const work: Work = {
   label: "Work",
   title: `Projects – ${person.name}`,
   description: `Design and dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
 };
 
 const gallery: Gallery = {
@@ -255,50 +268,23 @@ const gallery: Gallery = {
   label: "Gallery",
   title: `Photo gallery – ${person.name}`,
   description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
-  images: [
-    {
-      src: "/images/gallery/horizontal-1.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-4.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/horizontal-3.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-1.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-2.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/horizontal-2.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/horizontal-4.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-3.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-  ],
+  images: [],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export {
+  person,
+  social,
+  newsletter,
+  home,
+  about,
+  blog,
+  work,
+  gallery,
+  startHere,
+  store,
+  servicesPage,
+  caseStudiesPage,
+  freeChecklist,
+  contact,
+  siteCTA,
+};

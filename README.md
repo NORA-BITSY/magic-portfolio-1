@@ -1,8 +1,51 @@
-# Magic Portfolio
+# Practical AI Systems (magic-portfolio)
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+Marketing site for practical AI workflows, templates, automations, and services for small business owners. Built on the [Once UI magic-portfolio](https://demo.magic-portfolio.com) template with App Router + MDX blog.
 
-View the demo [here](https://demo.magic-portfolio.com).
+**Production project path:** `paraileial.com/magic-portfolio`
+
+## Quick start
+
+```bash
+npm install
+cp .env.example .env.local   # fill in before launch
+npm run dev
+```
+
+## Quality gate
+
+```bash
+npm run check          # lint + typecheck + audit:content + build
+AUDIT_STRICT=1 npm run audit:content   # production integration checks
+```
+
+> **Note:** Next.js 16 removed the `next lint` CLI. `npm run lint` runs `tsc --noEmit` (strict TypeScript). Biome is available via `npm run biome-write` for formatting.
+
+See `LAUNCH_CHECKLIST.md`, `CONTENT_EDITING.md`, and `SECURITY.md`.
+
+## Environment variables
+
+Copy `.env.example` → `.env.local`. Required before launch:
+
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_NEWSLETTER_FORM_ACTION` (or `NEXT_PUBLIC_NEWSLETTER_DISABLED=true`)
+- `NEXT_PUBLIC_CHECKOUT_*` per available product
+- `NEXT_PUBLIC_BOOKING_URL` (or use email fallback on `/contact`)
+
+## Where to edit content
+
+| Content | File |
+|---------|------|
+| Site identity / CTAs | `src/resources/content.tsx`, `src/resources/site.ts` |
+| Products | `src/resources/products.ts` |
+| Services | `src/resources/services.ts` |
+| Case studies | `src/resources/case-studies.ts` |
+| Blog posts | `src/app/blog/posts/*.mdx` |
+| Routes on/off | `src/resources/once-ui.config.ts` |
+
+---
+
+## Upstream template notes
 
 ![Magic Portfolio](public/images/og/home.jpg)
 

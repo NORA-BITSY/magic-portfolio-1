@@ -7,7 +7,13 @@
     "build": "next build",
     "biome-write": "npx @biomejs/biome format --write .",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "audit:content": "node scripts/audit-content.mjs",
+    "check": "npm run lint && npm run typecheck && npm run audit:content && npm run build"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -27,11 +33,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@eslint/eslintrc": "^3.3.5",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20.17.30",
     "@types/react": "^19.2.4",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.25.0",
+    "eslint-config-next": "^16.2.7",
     "typescript": "^5.8.3",
     "tzdata": "^1.0.44"
   }
